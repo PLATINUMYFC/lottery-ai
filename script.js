@@ -1,3 +1,4 @@
+alert("JS動いてる");
 async function load(type){
   const res = await fetch(type+".json");
   return await res.json();
