@@ -1,5 +1,3 @@
-alert("動いてる");
-
 function getFortune(){
   const types=[
     {name:"激熱🔥",boost:1.5},
@@ -7,7 +5,15 @@ function getFortune(){
     {name:"通常",boost:1.0},
     {name:"慎重",boost:0.8}
   ];
-  return types[Math.floor(Math.random()*types.length)];
+
+  const today = new Date().toDateString();
+  let hash = 0;
+
+  for(let i=0;i<today.length;i++){
+    hash += today.charCodeAt(i);
+  }
+
+  return types[hash % types.length];
 }
 
 const fortune = getFortune();
@@ -18,17 +24,12 @@ window.onload = () => {
 };
 
 async function load(type){
-  try{
-    if(type==="num4") return [];
-    const res = await fetch(type + ".json");
-    return await res.json();
-  }catch{
-    alert("データ読み込みエラー");
-    return [];
-  }
+  if(type==="num4") return [];
+  const res = await fetch(type + ".json");
+  return await res.json();
 }
 
-function analyze(data,max){
+function analyzeFull(data,max){
   let freq=Array(max+1).fill(0);
   let last=Array(max+1).fill(0);
 
@@ -42,21 +43,21 @@ function analyze(data,max){
   return {freq,last};
 }
 
-function score(data,max){
-  let {freq,last}=analyze(data,max);
+function scoreFull(data,max){
+  let {freq,last}=analyzeFull(data,max);
   let now=data.length;
 
   let scores=[];
 
   for(let i=1;i<=max;i++){
     let cold=now-last[i];
-    let center=(i>=20&&i<=24)?5:0;
+    let center=(i>=20&&i<=23)?4:0;
 
     let score =
-  freq[i] * 1.5 +
-  cold * 1.2 +
-  center +
-  Math.random()*2;
+      freq[i]*1.7 +
+      cold*1.3 +
+      center +
+      Math.random()*2;
 
     scores.push({num:i,score});
   }
@@ -64,9 +65,9 @@ function score(data,max){
   return scores.sort((a,b)=>b.score-a.score);
 }
 
-function generate(scores,count){
-  let top=scores.slice(0,25);
+function generateBalanced(scores,count){
   let res=[];
+  let top=scores.slice(0,25);
 
   while(res.length<count){
     let n=top[Math.floor(Math.random()*top.length)].num;
@@ -74,6 +75,14 @@ function generate(scores,count){
   }
 
   return res.sort((a,b)=>a-b);
+}
+
+function getReason(n){
+  let r=[];
+  if(n>=20 && n<=23) r.push("中心ゾーン");
+  if(n%2===0) r.push("偶数");
+  else r.push("奇数");
+  return r.join(" / ");
 }
 
 function num4(){
@@ -91,7 +100,7 @@ function num4(){
 async function run(type){
 
   if(type==="num4"){
-    let html="<div class='box'><b>ナンバーズ4</b><br>";
+    let html="<div class='card'>";
     num4().forEach(n=> html+=n+"<br>");
     html+="</div>";
     document.getElementById("out").innerHTML=html;
@@ -103,17 +112,25 @@ async function run(type){
   let max = type==="loto7"?37:43;
   let count = type==="loto6"?6:7;
 
-  let scores=score(data,max);
+  let scores=scoreFull(data,max);
 
-  let html="<div class='box'><b>激アツ数字</b><br>";
-  scores.slice(0,10).forEach(s=> html+=s.num+" ");
-  html+="</div>";
+  let html="<div class='card'>";
 
-  html+="<div class='box'><b>予想</b><br>";
+  scores.slice(0,10).forEach(s=>{
+    html+=`<div class='num'>${s.num}</div>
+    <div class='reason'>${getReason(s.num)}</div>`;
+  });
+
+  html+="</div><div class='card'>";
+
   for(let i=0;i<8;i++){
-    html+=generate(scores,count)+"<br>";
+    let set=generateBalanced(scores,count);
+    html+=set.map(n=>`<span class='num'>${n}</span>`).join("")+"<br>";
   }
+
   html+="</div>";
 
   document.getElementById("out").innerHTML=html;
 }
+
+window.run = run;
