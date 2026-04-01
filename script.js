@@ -1,3 +1,4 @@
+alert("動いてる");
 function getFortune(){
   const types=[
     {name:"激熱🔥",boost:1.5},
