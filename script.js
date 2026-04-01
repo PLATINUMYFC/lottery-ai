@@ -1,4 +1,5 @@
 alert("動いてる");
+
 function getFortune(){
   const types=[
     {name:"激熱🔥",boost:1.5},
@@ -16,7 +17,6 @@ window.onload = () => {
   "今日の運勢：" + fortune.name;
 };
 
-// JSON読み込み（エラー対策済み）
 async function load(type){
   try{
     if(type==="num4") return [];
@@ -29,7 +29,6 @@ async function load(type){
   }
 }
 
-// 分析
 function analyze(data,max){
   let freq=Array(max+1).fill(0);
   let last=Array(max+1).fill(0);
@@ -44,7 +43,6 @@ function analyze(data,max){
   return {freq,last};
 }
 
-// スコア
 function scoring(data,max){
   let {freq,last}=analyze(data,max);
   let now=data.length;
@@ -68,7 +66,6 @@ function scoring(data,max){
   return scores.sort((a,b)=>b.score-a.score);
 }
 
-// 生成
 function generate(scores,count){
   let top=scores.slice(0,25);
   let res=[];
@@ -81,7 +78,6 @@ function generate(scores,count){
   return res.sort((a,b)=>a-b);
 }
 
-// ナンバーズ4
 function num4(){
   let arr=[];
   for(let i=0;i<10;i++){
@@ -94,7 +90,6 @@ function num4(){
   return arr;
 }
 
-// 実行
 async function run(type){
 
   if(type==="num4"){
