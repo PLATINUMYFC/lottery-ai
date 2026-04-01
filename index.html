@@ -2,33 +2,70 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>宝くじAI 完全版</title>
+<title>宝くじAI</title>
+
 <style>
+
 body{
-  background:#0b0f1a;
-  color:#00f7ff;
+  background:#05070d;
+  color:#fff;
+  font-family:-apple-system,BlinkMacSystemFont;
+  margin:0;
+}
+
+.header{
+  padding:15px;
   text-align:center;
-  font-family:sans-serif;
+  font-size:20px;
+  background:#0f172a;
 }
-button{
-  padding:12px;
-  margin:10px;
-  width:80%;
-  background:#111;
-  color:#00f7ff;
-  border:1px solid #00f7ff;
-}
-.box{
-  border:1px solid #00f7ff;
-  margin:10px;
+
+#fortune{
+  text-align:center;
   padding:10px;
+  color:#00f7ff;
 }
+
+button{
+  width:90%;
+  margin:10px auto;
+  display:block;
+  padding:14px;
+  border-radius:14px;
+  border:none;
+  background:linear-gradient(135deg,#00f7ff,#0066ff);
+  color:#000;
+  font-weight:bold;
+}
+
+.card{
+  background:#0f172a;
+  margin:15px;
+  padding:15px;
+  border-radius:15px;
+}
+
+.num{
+  display:inline-block;
+  margin:5px;
+  padding:10px;
+  border-radius:50%;
+  background:#00f7ff;
+  color:#000;
+  font-weight:bold;
+}
+
+.reason{
+  font-size:11px;
+  color:#aaa;
+}
+
 </style>
 </head>
 
 <body>
 
-<h1>宝くじAI【完全版】</h1>
+<h1 class="header">宝くじAI</h1>
 
 <div id="fortune">読み込み中...</div>
 
