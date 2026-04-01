@@ -23,9 +23,9 @@ function scoreFull(data,max){
     let center=(i>=20&&i<=24)?5:0;
     let luck=Math.random()*2;
 
-    let score=
-      freq[i]1.5 +
-      cold1.2 +
+    let score =
+      freq[i] * 1.5 +
+      cold * 1.2 +
       center +
       luck;
 
