@@ -21,10 +21,9 @@ async function load(type){
   try{
     if(type==="num4") return [];
     const res = await fetch(type + ".json");
-    if(!res.ok) throw new Error("読み込み失敗");
     return await res.json();
-  }catch(e){
-    alert("データ読み込みエラー：" + type);
+  }catch{
+    alert("データ読み込みエラー");
     return [];
   }
 }
@@ -43,7 +42,7 @@ function analyze(data,max){
   return {freq,last};
 }
 
-function scoring(data,max){
+function score(data,max){
   let {freq,last}=analyze(data,max);
   let now=data.length;
 
@@ -52,13 +51,12 @@ function scoring(data,max){
   for(let i=1;i<=max;i++){
     let cold=now-last[i];
     let center=(i>=20&&i<=24)?5:0;
-    let luck=Math.random()*2;
 
     let score =
-      (freq[i]1.5 +
+      freq[i]1.5 +
       cold1.2 +
       center +
-      luck) * fortune.boost;
+      Math.random()*2;
 
     scores.push({num:i,score});
   }
@@ -102,21 +100,13 @@ async function run(type){
 
   let data=await load(type);
 
-  if(data.length===0){
-    document.getElementById("out").innerHTML =
-    "<div class='box'>データなし</div>";
-    return;
-  }
-
   let max = type==="loto7"?37:43;
   let count = type==="loto6"?6:7;
 
-  let scores=scoring(data,max);
+  let scores=score(data,max);
 
   let html="<div class='box'><b>激アツ数字</b><br>";
-  scores.slice(0,10).forEach(s=>{
-    html+=s.num+" ";
-  });
+  scores.slice(0,10).forEach(s=> html+=s.num+" ");
   html+="</div>";
 
   html+="<div class='box'><b>予想</b><br>";
