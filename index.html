@@ -2,27 +2,42 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>宝くじAI 完全体MAX</title>
+<title>宝くじAI 完全版</title>
 <style>
-body{background:#0b0f1a;color:#00f7ff;text-align:center;}
-button{padding:12px;margin:10px;width:80%;}
-.box{border:1px solid #00f7ff;margin:10px;padding:10px;}
+body{
+  background:#0b0f1a;
+  color:#00f7ff;
+  text-align:center;
+  font-family:sans-serif;
+}
+button{
+  padding:12px;
+  margin:10px;
+  width:80%;
+  background:#111;
+  color:#00f7ff;
+  border:1px solid #00f7ff;
+}
+.box{
+  border:1px solid #00f7ff;
+  margin:10px;
+  padding:10px;
+}
 </style>
 </head>
+
 <body>
 
-<h1>宝くじAI【完全体】</h1>
+<h1>宝くじAI【完全版】</h1>
 
-<div id="fortune"></div>
+<div id="fortune">読み込み中...</div>
 
 <button onclick="run('loto6')">ロト6</button>
 <button onclick="run('loto7')">ロト7</button>
 <button onclick="run('num4')">ナンバーズ4</button>
 
-<div id="rank"></div>
 <div id="out"></div>
 
-<script src="engine.js"></script>
 <script src="script.js"></script>
 
 </body>
